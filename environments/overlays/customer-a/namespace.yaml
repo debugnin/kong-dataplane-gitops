@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: customer-a
-  labels:
-    customer: customer-a
-    kong.konghq.com/dataplane: "true"

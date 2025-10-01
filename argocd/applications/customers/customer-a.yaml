@@ -5,12 +5,17 @@ metadata:
   namespace: argocd
 spec:
   project: kong-dataplane
-  source:
-    repoURL: https://github.com/debugnin/kong-dataplane-gitops
+  sources:
+  - repoURL: https://charts.konghq.com
+    targetRevision: 2.38.0
+    chart: kong
+    helm:
+      releaseName: kong-dataplane
+      valueFiles:
+      - $values/customers/customer-a-values.yaml
+  - repoURL: https://github.com/debugnin/kong-dataplane-gitops
     targetRevision: HEAD
-    path: environments/overlays/customer-a
-    kustomize:
-      enableHelm: true
+    ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: customer-a

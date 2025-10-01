@@ -11,42 +11,8 @@ fi
 
 echo "Generating configuration for customer: $CUSTOMER_NAME"
 
-# Create customer overlay directory
-mkdir -p "environments/overlays/$CUSTOMER_NAME"
-
-# Create kustomization.yaml
-cat > "environments/overlays/$CUSTOMER_NAME/kustomization.yaml" << EOF
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-namespace: $CUSTOMER_NAME
-
-resources:
-- ../../base
-- namespace.yaml
-
-helmCharts:
-- name: kong
-  repo: https://charts.konghq.com
-  version: 2.38.0
-  releaseName: kong-dataplane
-  namespace: $CUSTOMER_NAME
-  valuesFile: values.yaml
-EOF
-
-# Create namespace.yaml
-cat > "environments/overlays/$CUSTOMER_NAME/namespace.yaml" << EOF
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: $CUSTOMER_NAME
-  labels:
-    customer: $CUSTOMER_NAME
-    kong.konghq.com/dataplane: "true"
-EOF
-
-# Create values.yaml
-cat > "environments/overlays/$CUSTOMER_NAME/values.yaml" << EOF
+# Create customer values file
+cat > "customers/$CUSTOMER_NAME-values.yaml" << EOF
 deployment:
   kong:
     enabled: true
@@ -100,10 +66,17 @@ metadata:
   namespace: argocd
 spec:
   project: kong-dataplane
-  source:
-    repoURL: https://github.com/your-org/kong-dataplane-gitops
+  sources:
+  - repoURL: https://charts.konghq.com
+    targetRevision: 2.38.0
+    chart: kong
+    helm:
+      releaseName: kong-dataplane
+      valueFiles:
+      - \$values/customers/$CUSTOMER_NAME-values.yaml
+  - repoURL: https://github.com/debugnin/kong-dataplane-gitops
     targetRevision: HEAD
-    path: environments/overlays/$CUSTOMER_NAME
+    ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: $CUSTOMER_NAME
@@ -117,7 +90,7 @@ EOF
 
 echo "Configuration generated for customer: $CUSTOMER_NAME"
 echo "Files created:"
-echo "  - environments/overlays/$CUSTOMER_NAME/"
+echo "  - customers/$CUSTOMER_NAME-values.yaml"
 echo "  - argocd/applications/customers/$CUSTOMER_NAME.yaml"
 echo ""
 echo "Next steps:"
