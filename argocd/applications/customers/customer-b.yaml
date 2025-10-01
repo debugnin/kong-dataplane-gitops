@@ -11,6 +11,7 @@ spec:
     chart: kong
     helm:
       releaseName: kong-dataplane
+      skipCrds: true
       valueFiles:
       - $values/customers/customer-b-values.yaml
   - repoURL: https://github.com/debugnin/kong-dataplane-gitops
