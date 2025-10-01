@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Kong DataPlane deployments for multiple customers
   sourceRepos:
-    - "https://github.com/your-org/kong-dataplane-gitops"
+    - "https://github.com/debugnin/kong-dataplane-gitops"
     - "https://charts.konghq.com"
   destinations:
     - namespace: "customer-*"

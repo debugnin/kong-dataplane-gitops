@@ -6,7 +6,7 @@ metadata:
 spec:
   project: kong-dataplane
   source:
-    repoURL: https://github.com/your-org/kong-dataplane-gitops
+    repoURL: https://github.com/debugnin/kong-dataplane-gitops
     targetRevision: HEAD
     path: environments/overlays/customer-a
   destination:
