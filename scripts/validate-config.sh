@@ -22,7 +22,7 @@ echo "Validating customer values files..."
 for values in customers/*-values.yaml; do
     if [ -f "$values" ]; then
         customer=$(basename "$values" -values.yaml)
-        helm template kong-dataplane kong/kong --version 2.38.0 -f "$values" > /dev/null
+        helm template kong-dataplane kong/kong --version 2.52.0 -f "$values" > /dev/null
         echo "✓ $customer values"
     fi
 done

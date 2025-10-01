@@ -7,7 +7,7 @@ spec:
   project: kong-dataplane
   sources:
   - repoURL: https://charts.konghq.com
-    targetRevision: 2.38.0
+    targetRevision: 2.52.0
     chart: kong
     helm:
       releaseName: kong-dataplane
