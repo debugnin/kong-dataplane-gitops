@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kong-dataplane
+  namespace: argocd
+spec:
+  description: Kong DataPlane deployments for multiple customers
+  sourceRepos:
+    - "https://github.com/your-org/kong-dataplane-gitops"
+    - "https://charts.konghq.com"
+  destinations:
+    - namespace: "customer-*"
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: "*"
+    - group: apps
+      kind: "*"
+    - group: networking.k8s.io
+      kind: "*"
+  roles:
+    - name: admin
+      policies:
+        - p, proj:kong-dataplane:admin, applications, *, kong-dataplane/*, allow
+      groups:
+        - kong-admins

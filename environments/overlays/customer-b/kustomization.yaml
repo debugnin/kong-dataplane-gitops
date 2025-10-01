@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: customer-b
+
+resources:
+- ../../base
+- namespace.yaml
+
+helmCharts:
+- name: kong
+  repo: https://charts.konghq.com
+  version: 2.38.0
+  releaseName: kong-dataplane
+  namespace: customer-b
+  valuesFile: values.yaml

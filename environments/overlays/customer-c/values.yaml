@@ -1,0 +1,41 @@
+deployment:
+  kong:
+    enabled: true
+
+image:
+  repository: kong/kong-gateway
+  tag: "3.6"
+
+env:
+  role: data_plane
+  database: "off"
+  cluster_control_plane: "control-plane.kong.svc.cluster.local:8005"
+  cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
+  cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
+  cluster_telemetry_endpoint: "control-plane.kong.svc.cluster.local:8006"
+  proxy_listen: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
+  admin_listen: "off"
+  status_listen: "0.0.0.0:8100"
+
+secretVolumes:
+- kong-cluster-cert
+
+proxy:
+  enabled: true
+  type: ClusterIP
+
+admin:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+
+replicaCount: 1

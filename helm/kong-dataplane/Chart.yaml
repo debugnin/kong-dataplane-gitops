@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kong-dataplane
+description: Kong DataPlane Helm Chart for multi-customer deployments
+type: application
+version: 0.1.0
+appVersion: "3.6"
+dependencies:
+- name: kong
+  version: 2.38.0
+  repository: https://charts.konghq.com

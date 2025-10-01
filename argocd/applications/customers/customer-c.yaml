@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kong-dataplane-customer-c
+  namespace: argocd
+spec:
+  project: kong-dataplane
+  source:
+    repoURL: https://github.com/your-org/kong-dataplane-gitops
+    targetRevision: HEAD
+    path: environments/overlays/customer-c
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: customer-c
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
