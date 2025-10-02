@@ -1,70 +1,17 @@
-deployment:
-  kong:
-    enabled: true
-
-image:
-  repository: kong/kong-gateway
-  tag: "3.11"
-
-env:
-  role: data_plane
-  database: "off"
-  cluster_mtls: pki
-  cluster_control_plane: effeb2bde3.au.cp.konghq.com:443
-  cluster_dp_labels: "type:docker-kubernetesOS"
-  cluster_server_name: effeb2bde3.au.cp.konghq.com
-  cluster_telemetry_endpoint: effeb2bde3.au.tp.konghq.com:443
-  cluster_telemetry_server_name: effeb2bde3.au.tp.konghq.com
-  cluster_cert: "{vault://hcv/tls/client/cert}"
-  cluster_cert_key: "{vault://hcv/tls/client/key}"
-  lua_ssl_trusted_certificate: system
-  konnect_mode: "on"
-  vitals: "off"
-  nginx_worker_processes: "1"
-  upstream_keepalive_max_requests: "100000"
-  nginx_http_keepalive_requests: "100000"
-  proxy_access_log: "off"
-  dns_stale_ttl: "3600"
-  router_flavor: expressions
-  # HashiCorp Vault
-  vaults: hcv
-  vault_hcv_protocol: http
-  vault_hcv_host: vault.vault.svc.cluster.local
-  vault_hcv_port: 8200
-  vault_hcv_mount: secret
-  vault_hcv_kv: v2
-  vault_hcv_token: "${VAULT_TOKEN}"
-
-# secretVolumes:
-  # - kong-cluster-cert
-
 proxy:
   enabled: true
   type: LoadBalancer
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-
-admin:
-  enabled: false
-
-manager:
-  enabled: false
-
-ingressController:
-  enabled: false
-  installCRDs: false
 
 resources:
   limits:
+    cpu: 2000m
+    memory: 4Gi
+  requests:
     cpu: 1000m
     memory: 2Gi
-  requests:
-    cpu: 500m
-    memory: 1Gi
 
 autoscaling:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 70
+  maxReplicas: 15
+  targetCPUUtilizationPercentage: 60

@@ -13,6 +13,7 @@ spec:
       releaseName: kong-dataplane
       skipCrds: true
       valueFiles:
+      - $values/customers/base-values.yaml
       - $values/customers/customer-b-values.yaml
   - repoURL: https://github.com/debugnin/kong-dataplane-gitops
     targetRevision: HEAD

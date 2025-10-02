@@ -33,17 +33,11 @@ env:
   vault_hcv_port: 8200
   vault_hcv_mount: secret
   vault_hcv_kv: v2
-  vault_hcv_token: "${VAULT_TOKEN}"
-
-# secretVolumes:
-  # - kong-cluster-cert
-
-proxy:
-  enabled: true
-  type: LoadBalancer
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+  vault_hcv_token:
+    valueFrom:
+      secretKeyRef:
+        name: vault-token
+        key: token
 
 admin:
   enabled: false
