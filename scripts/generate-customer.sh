@@ -25,15 +25,15 @@ env:
   role: data_plane
   database: "off"
   cluster_control_plane: "control-plane.kong.svc.cluster.local:8005"
-  cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
-  cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
+  cluster_cert: "{vault://hcv/tls/client/cert}"
+  cluster_cert_key: "{vault://hcv/tls/client/key}"
   cluster_telemetry_endpoint: "control-plane.kong.svc.cluster.local:8006"
   proxy_listen: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
   admin_listen: "off"
   status_listen: "0.0.0.0:8100"
 
-secretVolumes:
-- kong-cluster-cert
+# secretVolumes:
+# - kong-cluster-cert
 
 proxy:
   enabled: true
