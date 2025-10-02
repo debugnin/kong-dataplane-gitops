@@ -26,6 +26,14 @@ env:
   proxy_access_log: "off"
   dns_stale_ttl: "3600"
   router_flavor: expressions
+  # HashiCorp Vault
+  vaults: hcv
+  vault_hcv_protocol: http
+  vault_hcv_host: vault.vault.svc.cluster.local
+  vault_hcv_port: 8200
+  vault_hcv_mount: secret
+  vault_hcv_kv: v2
+  vault_hcv_token: "hvs.GKO4bbYruf0O0iPtrPLM1rM3"
 
 # secretVolumes:
   # - kong-cluster-cert

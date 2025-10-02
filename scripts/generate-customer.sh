@@ -19,7 +19,7 @@ deployment:
 
 image:
   repository: kong/kong-gateway
-  tag: "3.6"
+  tag: "3.11"
 
 env:
   role: data_plane
@@ -31,6 +31,14 @@ env:
   proxy_listen: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
   admin_listen: "off"
   status_listen: "0.0.0.0:8100"
+  # HashiCorp Vault
+  vaults: hcv
+  vault_hcv_protocol: http
+  vault_hcv_host: vault.vault.svc.cluster.local
+  vault_hcv_port: 8200
+  vault_hcv_mount: secret
+  vault_hcv_kv: v2
+  vault_hcv_token: "hvs.GKO4bbYruf0O0iPtrPLM1rM3"
 
 # secretVolumes:
 # - kong-cluster-cert
