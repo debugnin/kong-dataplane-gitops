@@ -1,5 +1,5 @@
 env:
-  cluster_server_name: effeb2bde3.au.cp.konghq.com
-  cluster_control_plane: effeb2bde3.au.cp.konghq.com:443
-  cluster_telemetry_endpoint: effeb2bde3.au.tp.konghq.com:443
-  cluster_telemetry_server_name: effeb2bde3.au.tp.konghq.com
+  cluster_server_name: effeb2bded.au.cp.konghq.com
+  cluster_control_plane: effeb2bded.au.cp.konghq.com:443
+  cluster_telemetry_endpoint: effeb2bded.au.tp.konghq.com:443
+  cluster_telemetry_server_name: effeb2bded.au.tp.konghq.com
