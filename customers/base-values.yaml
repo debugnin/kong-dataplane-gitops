@@ -10,11 +10,7 @@ env:
   role: data_plane
   database: "off"
   cluster_mtls: pki
-  cluster_control_plane: effeb2bde3.au.cp.konghq.com:443
   cluster_dp_labels: "type:docker-kubernetesOS"
-  cluster_server_name: effeb2bde3.au.cp.konghq.com
-  cluster_telemetry_endpoint: effeb2bde3.au.tp.konghq.com:443
-  cluster_telemetry_server_name: effeb2bde3.au.tp.konghq.com
   cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
   cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
   lua_ssl_trusted_certificate: system
@@ -27,7 +23,7 @@ env:
   dns_stale_ttl: "3600"
   router_flavor: expressions
 secretVolumes:
-- kong-cluster-cert
+  - kong-cluster-cert
 
 admin:
   enabled: false

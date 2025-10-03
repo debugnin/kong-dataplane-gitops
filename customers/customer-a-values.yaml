@@ -1,6 +1,5 @@
-proxy:
-  enabled: true
-  type: LoadBalancer
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+env:
+  cluster_server_name: effeb2bde3.au.cp.konghq.com
+  cluster_control_plane: effeb2bde3.au.cp.konghq.com:443
+  cluster_telemetry_endpoint: effeb2bde3.au.tp.konghq.com:443
+  cluster_telemetry_server_name: effeb2bde3.au.tp.konghq.com
