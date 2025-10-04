@@ -10,7 +10,7 @@ spec:
     targetRevision: 2.52.0
     chart: kong
     helm:
-      releaseName: kong-dataplane
+      releaseName: kong-nab-dataplane
       skipCrds: true
       valueFiles:
       - $values/customers/base-values.yaml
