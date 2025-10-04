@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kong-dataplane-customer-a
+  name: kong-dataplane-nab
   namespace: argocd
 spec:
   project: kong-dataplane
@@ -14,13 +14,13 @@ spec:
       skipCrds: true
       valueFiles:
       - $values/customers/base-values.yaml
-      - $values/customers/customer-a-values.yaml
+      - $values/customers/nab-values.yaml
   - repoURL: https://github.com/debugnin/kong-dataplane-gitops
     targetRevision: HEAD
     ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: customer-a
+    namespace: nab
   syncPolicy:
     automated:
       prune: true

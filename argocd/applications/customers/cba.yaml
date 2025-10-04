@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kong-dataplane-customer-b
+  name: kong-dataplane-cba
   namespace: argocd
 spec:
   project: kong-dataplane
@@ -14,13 +14,13 @@ spec:
       skipCrds: true
       valueFiles:
       - $values/customers/base-values.yaml
-      - $values/customers/customer-b-values.yaml
+      - $values/customers/cba-values.yaml
   - repoURL: https://github.com/debugnin/kong-dataplane-gitops
     targetRevision: HEAD
     ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: customer-b
+    namespace: cba
   syncPolicy:
     automated:
       prune: true

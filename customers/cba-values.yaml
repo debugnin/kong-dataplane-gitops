@@ -1,0 +1,17 @@
+env:
+  cluster_server_name: 995f163511.au.cp0.konghq.com
+  cluster_control_plane: 995f163511.au.cp0.konghq.com:443
+  cluster_telemetry_endpoint: 995f163511.au.tp0.konghq.com:443
+  cluster_telemetry_server_name: 995f163511.au.tp0.konghq.com
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+  requests:
+    cpu: 1000m
+    memory: 2Gi
+
+autoscaling:
+  maxReplicas: 15
+  targetCPUUtilizationPercentage: 60

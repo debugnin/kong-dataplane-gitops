@@ -1,0 +1,5 @@
+env:
+  cluster_server_name: 27f1c2fb27.au.cp0.konghq.com
+  cluster_control_plane: 27f1c2fb27.au.cp0.konghq.com:443
+  cluster_telemetry_endpoint: 27f1c2fb27.au.tp0.konghq.com:443
+  cluster_telemetry_server_name: 27f1c2fb27.au.tp0.konghq.com
