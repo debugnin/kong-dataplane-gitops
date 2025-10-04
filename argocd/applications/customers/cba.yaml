@@ -20,7 +20,7 @@ spec:
     ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: cba
+    namespace: kong-cba
   syncPolicy:
     automated:
       prune: true

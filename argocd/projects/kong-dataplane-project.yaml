@@ -9,7 +9,7 @@ spec:
     - "https://github.com/debugnin/kong-dataplane-gitops"
     - "https://charts.konghq.com"
   destinations:
-    - namespace: "customer-*"
+    - namespace: "kong-*"
       server: https://kubernetes.default.svc
     - namespace: argocd
       server: https://kubernetes.default.svc
