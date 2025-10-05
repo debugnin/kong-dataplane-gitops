@@ -7,20 +7,17 @@ spec:
   project: kong-dataplane
   source:
     repoURL: oci://registry-1.docker.io/bitnamicharts
-    targetRevision: 18.19.4
-    chart: redis
+    targetRevision: 1.0.7
+    chart: redis-cluster
     helm:
       releaseName: redis-cba
       values: |
         auth:
           enabled: false
-        master:
-          persistence:
-            enabled: false
-        replica:
-          replicaCount: 0
-        metrics:
+        persistence:
           enabled: false
+        cluster:
+          nodes: 3
         nameOverride: "cba-redis"
   destination:
     server: https://kubernetes.default.svc
