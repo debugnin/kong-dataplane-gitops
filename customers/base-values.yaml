@@ -30,6 +30,11 @@ env:
   vault_hcv_kv: v2
   vault_hcv_token: "hvs.GKO4bbYruf0O0iPtrPLM1rM3"
 
+  # Redis configuration
+  redis_host: "{{ .Release.Namespace }}-redis-master"
+  redis_port: 6379
+  redis_database: 0
+
 admin:
   enabled: false
 

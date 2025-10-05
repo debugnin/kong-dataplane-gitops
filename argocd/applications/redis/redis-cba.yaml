@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-cba
+  namespace: argocd
+spec:
+  project: kong-dataplane
+  source:
+    repoURL: oci://registry-1.docker.io/bitnamicharts
+    targetRevision: 18.19.4
+    chart: redis
+    helm:
+      releaseName: redis-cba
+      values: |
+        auth:
+          enabled: false
+        master:
+          persistence:
+            enabled: false
+        replica:
+          replicaCount: 0
+        metrics:
+          enabled: false
+        nameOverride: "cba-redis"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kong-cba
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
