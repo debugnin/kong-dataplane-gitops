@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kong-dataplane-anz
+  namespace: argocd
+spec:
+  project: kong-dataplane
+  sources:
+    - repoURL: https://charts.konghq.com
+      targetRevision: 2.52.0
+      chart: kong
+      helm:
+        releaseName: kong-anz-dataplane
+        skipCrds: true
+        valueFiles:
+          - $values/customers/base-values.yaml
+          - $values/customers/anz-values.yaml
+    - repoURL: https://github.com/debugnin/kong-dataplane-gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kong-anz
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

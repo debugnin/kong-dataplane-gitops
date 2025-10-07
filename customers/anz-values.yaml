@@ -1,0 +1,8 @@
+env:
+  cluster_server_name: f8a85218a5.au.cp0.konghq.com
+  cluster_control_plane: f8a85218a5.au.cp0.konghq.com:443
+  cluster_telemetry_endpoint: f8a85218a5.au.tp0.konghq.com:443
+  cluster_telemetry_server_name: f8a85218a5.au.tp0.konghq.com
+
+  cluster_cert: "{vault://hcv/tls/anz/cert}"
+  cluster_cert_key: "{vault://hcv/tls/anz/key}"
