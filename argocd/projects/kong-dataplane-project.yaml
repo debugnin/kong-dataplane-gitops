@@ -8,7 +8,7 @@ spec:
   sourceRepos:
     - "https://github.com/debugnin/kong-dataplane-gitops"
     - "https://charts.konghq.com"
-    - "oci://registry-1.docker.io/bitnamicharts"
+    - "https://charts.bitnami.com/bitnami"
   destinations:
     - namespace: "kong-*"
       server: https://kubernetes.default.svc

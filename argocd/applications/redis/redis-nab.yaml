@@ -6,19 +6,23 @@ metadata:
 spec:
   project: kong-dataplane
   source:
-    repoURL: oci://registry-1.docker.io/bitnamicharts
-    targetRevision: 1.0.7
-    chart: redis-cluster
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: redis
+    targetRevision: 18.19.4
     helm:
       releaseName: redis-nab
       values: |
         auth:
           enabled: false
-        persistence:
-          enabled: false
-        cluster:
-          nodes: 3
-        nameOverride: "nab-redis"
+        image:
+          registry: docker.io
+          repository: bitnami/redis
+          tag: latest
+        master:
+          persistence:
+            enabled: false
+        replica:
+          replicaCount: 0
   destination:
     server: https://kubernetes.default.svc
     namespace: kong-nab
@@ -27,4 +31,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
