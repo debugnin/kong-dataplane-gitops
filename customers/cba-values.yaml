@@ -3,8 +3,9 @@ env:
   cluster_control_plane: 995f163511.au.cp0.konghq.com:443
   cluster_telemetry_endpoint: 995f163511.au.tp0.konghq.com:443
   cluster_telemetry_server_name: 995f163511.au.tp0.konghq.com
-  cluster_cert: "{vault://hcv/tls/cba/cert}"
-  cluster_cert_key: "{vault://hcv/tls/cba/key}"
+
+  cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
+  cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
 
 resources:
   limits:
