@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-anz
+  namespace: argocd
+spec:
+  project: kong-dataplane
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: redis
+    targetRevision: 18.19.4
+    helm:
+      releaseName: redis-anz
+      values: |
+        auth:
+          enabled: false
+        image:
+          registry: docker.io
+          repository: bitnami/redis
+          tag: latest
+        master:
+          persistence:
+            enabled: false
+        replica:
+          replicaCount: 0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kong-anz
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
