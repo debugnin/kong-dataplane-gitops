@@ -4,5 +4,5 @@ env:
   cluster_telemetry_endpoint: f8a85218a5.au.tp0.konghq.com:443
   cluster_telemetry_server_name: f8a85218a5.au.tp0.konghq.com
 
-  cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
-  cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
+  cluster_cert: "{vault://hcv/tls/anz/cert}"
+  cluster_cert_key: "{vault://hcv/tls/anz/key}"
