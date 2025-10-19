@@ -20,6 +20,7 @@ env:
   proxy_access_log: "off"
   dns_stale_ttl: "3600"
   router_flavor: expressions
+  log_level: "debug"
 
   # HashiCorp Vault
   vaults: hcv
