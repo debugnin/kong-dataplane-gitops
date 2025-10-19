@@ -6,15 +6,3 @@ env:
 
   cluster_cert: "{vault://hcv/tls/cba/cert}"
   cluster_cert_key: "{vault://hcv/tls/cba/key}"
-
-resources:
-  limits:
-    cpu: 2000m
-    memory: 4Gi
-  requests:
-    cpu: 1000m
-    memory: 2Gi
-
-autoscaling:
-  maxReplicas: 15
-  targetCPUUtilizationPercentage: 60

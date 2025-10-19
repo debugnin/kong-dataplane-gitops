@@ -29,10 +29,6 @@ env:
   vault_hcv_mount: secret
   vault_hcv_kv: v2
   vault_hcv_token: "root"
-  
-  # Cluster certificates from Vault
-  cluster_cert: "{vault://hcv/tls/cluster/cert}"
-  cluster_cert_key: "{vault://hcv/tls/cluster/key}"
 
 secretVolumes:
   - kong-cluster-cert
@@ -49,11 +45,11 @@ ingressController:
 
 resources:
   limits:
-    cpu: 1000m
-    memory: 2Gi
-  requests:
     cpu: 500m
     memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 500Mi
 
 autoscaling:
   enabled: true
