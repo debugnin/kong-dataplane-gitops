@@ -21,6 +21,8 @@ env:
   dns_stale_ttl: "3600"
   router_flavor: expressions
   log_level: "debug"
+  tracing_instrumentations: "all"
+  tracing_sampling_rate: "1.0"
 
   # HashiCorp Vault
   vaults: hcv
