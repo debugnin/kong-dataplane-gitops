@@ -40,6 +40,8 @@ spec:
       kind: "*"
     - group: autoscaling
       kind: "*"
+    - group: policy
+      kind: "*"
   roles:
     - name: admin
       policies:

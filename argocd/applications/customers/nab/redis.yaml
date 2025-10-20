@@ -8,28 +8,21 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: redis
-    targetRevision: 20.2.1
+    targetRevision: 18.19.4
     helm:
       releaseName: redis-nab
       values: |
-        fullnameOverride: redis-nab
         auth:
           enabled: false
+        image:
+          registry: docker.io
+          repository: bitnami/redis
+          tag: latest
         master:
           persistence:
-            enabled: true
-            size: 8Gi
+            enabled: false
         replica:
           replicaCount: 0
-        metrics:
-          enabled: false
-        resources:
-          limits:
-            memory: 256Mi
-            cpu: 250m
-          requests:
-            memory: 128Mi
-            cpu: 100m
   destination:
     server: https://kubernetes.default.svc
     namespace: kong-nab
