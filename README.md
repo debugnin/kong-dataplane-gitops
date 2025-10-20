@@ -34,14 +34,19 @@ kong-dataplane-gitops/
 │   └── applications/
 │       ├── app-of-apps.yaml                   # Parent application
 │       └── customers/                         # Customer applications
-│           ├── nab.yaml                       # NAB Kong deployment
-│           ├── cba.yaml                       # CBA Kong deployment
-│           └── anz.yaml                       # ANZ Kong deployment
-├── customers/
-│   ├── base-values.yaml                       # Common Kong config
-│   ├── nab-values.yaml                        # NAB-specific config
-│   ├── cba-values.yaml                        # CBA-specific config
-│   └── anz-values.yaml                        # ANZ-specific config
+│           ├── base-values.yaml               # Common Kong config
+│           ├── cba/
+│           │   ├── kong.yaml                  # CBA Kong deployment
+│           │   ├── redis.yaml                 # CBA Redis deployment
+│           │   └── values.yaml                # CBA-specific config
+│           ├── nab/
+│           │   ├── kong.yaml                  # NAB Kong deployment
+│           │   ├── redis.yaml                 # NAB Redis deployment
+│           │   └── values.yaml                # NAB-specific config
+│           └── anz/
+│               ├── kong.yaml                  # ANZ Kong deployment
+│               ├── redis.yaml                 # ANZ Redis deployment
+│               └── values.yaml                # ANZ-specific config
 └── README.md
 ```
 
@@ -77,45 +82,45 @@ kong-dataplane-gitops/
 - Konnect control planes created for each customer
 - Client certificates generated and stored
 
-### Certificate Generation
+### HashiCorp Vault Setup
 
-Generate client certificates for each customer:
+Deploy and configure Vault for certificate storage:
 
 ```bash
-# Generate CA (if not exists)
-openssl genrsa -out ca.key 4096
-openssl req -new -x509 -key ca.key -sha256 -subj "/C=AU/ST=NSW/O=Kong" -days 3650 -out ca.crt
+# Deploy Vault
+kubectl apply -f ../vault/argocd/projects/vault-project.yaml
+kubectl apply -f ../vault/argocd/applications/vault.yaml
 
-# Generate client certificates for each customer
-for customer in nab cba anz; do
-  openssl genrsa -out ${customer}-client.key 2048
-  openssl req -new -key ${customer}-client.key -out ${customer}-client.csr -subj "/CN=${customer}-client"
-  openssl x509 -req -in ${customer}-client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out ${customer}-client.crt -days 3650
-done
+# Initialize and unseal Vault (see vault/README.md)
+# Store certificates in Vault (certificates already stored at):
+# - secret/tls/cba (cert + key)
+# - secret/tls/nab (cert + key) 
+# - secret/tls/anz (cert + key)
+# - secret/tls/ca (cert only)
 ```
 
-### Kubernetes Secrets
+### Vault Integration
 
-Create TLS secrets for each customer:
+Kong data planes use Vault references for certificates:
 
-```bash
-# Create namespaces
-kubectl create namespace kong-nab
-kubectl create namespace kong-cba  
-kubectl create namespace kong-anz
-
-# Create TLS secrets
-for customer in nab cba anz; do
-  kubectl create secret tls kong-${customer}-client-tls \
-    --cert=${customer}-client.crt \
-    --key=${customer}-client.key \
-    -n kong-${customer}
-done
+```yaml
+# In customer values files
+env:
+  cluster_cert: "{vault://hcv/secret/tls/nab/cert}"
+  cluster_cert_key: "{vault://hcv/secret/tls/nab/key}"
+  
+# Vault configuration in base-values.yaml
+env:
+  vaults: hcv
+  vault_hcv_protocol: http
+  vault_hcv_host: vault.vault.svc.cluster.local
+  vault_hcv_port: 8200
+  vault_hcv_token: "hvs.cZUnRwmm0JZrb64R4KISsXKW"
 ```
 
 ### Redis Deployment
 
-Redis is deployed as a dependency for each Kong data plane:
+Redis is deployed alongside Kong for each customer:
 
 ```bash
 # Redis applications are automatically created by app-of-apps
@@ -123,6 +128,11 @@ Redis is deployed as a dependency for each Kong data plane:
 # - redis-nab (in kong-nab namespace)
 # - redis-cba (in kong-cba namespace) 
 # - redis-anz (in kong-anz namespace)
+
+# Redis applications are defined in each customer directory:
+# - argocd/applications/customers/cba/redis.yaml
+# - argocd/applications/customers/nab/redis.yaml
+# - argocd/applications/customers/anz/redis.yaml
 
 # Verify Redis deployment
 kubectl get pods -n kong-nab | grep redis
@@ -155,9 +165,15 @@ argocd app list | grep redis
 - **Security**: Pod security context and service account
 
 ### Customer-Specific Configuration
-Each customer has dedicated values file with:
+Each customer has a dedicated directory with:
+- **Kong Application**: `customers/{customer}/kong.yaml`
+- **Redis Application**: `customers/{customer}/redis.yaml`
+- **Values File**: `customers/{customer}/values.yaml`
+- **Common Base**: `customers/base-values.yaml` (shared across all customers)
+
+Configuration includes:
 - **Control Plane Endpoint**: Unique Konnect CP URL
-- **Certificates**: References to customer-specific TLS secrets
+- **Vault Integration**: References to customer-specific TLS certificates in Vault
 - **Namespace**: Isolated deployment namespace
 - **Redis Configuration**: Connection to customer-specific Redis instance
 
@@ -175,18 +191,17 @@ env:
 # redis-anz-master.kong-anz.svc.cluster.local:6379
 ```
 
-### Example Customer Config (nab-values.yaml)
+### Example Customer Config (nab/values.yaml)
 ```yaml
 env:
   cluster_control_plane: "https://your-cp-id.cp0.konghq.com"
   cluster_server_name: "your-cp-id.cp0.konghq.com"
   cluster_telemetry_endpoint: "https://your-cp-id.tp0.konghq.com"
+  cluster_cert: "{vault://hcv/secret/tls/nab/cert}"
+  cluster_cert_key: "{vault://hcv/secret/tls/nab/key}"
 
-certificates:
-  cluster:
-    enabled: true
-    cert: kong-nab-client-tls
-    key: kong-nab-client-tls
+# Redis connection automatically configured via service discovery:
+# redis-nab-master.kong-nab.svc.cluster.local:6379
 ```
 
 ## Monitoring Integration

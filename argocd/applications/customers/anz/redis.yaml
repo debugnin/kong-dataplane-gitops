@@ -1,31 +1,38 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: redis-nab
+  name: redis-anz
   namespace: argocd
 spec:
   project: kong-dataplane
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: redis
-    targetRevision: 18.19.4
+    targetRevision: 20.2.1
     helm:
-      releaseName: redis-nab
+      releaseName: redis-anz
       values: |
+        fullnameOverride: redis-anz
         auth:
           enabled: false
-        image:
-          registry: docker.io
-          repository: bitnami/redis
-          tag: latest
         master:
           persistence:
-            enabled: false
+            enabled: true
+            size: 8Gi
         replica:
           replicaCount: 0
+        metrics:
+          enabled: false
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 250m
+          requests:
+            memory: 128Mi
+            cpu: 100m
   destination:
     server: https://kubernetes.default.svc
-    namespace: kong-nab
+    namespace: kong-anz
   syncPolicy:
     automated:
       prune: true

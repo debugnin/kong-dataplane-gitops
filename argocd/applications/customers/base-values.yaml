@@ -33,9 +33,6 @@ env:
   vault_hcv_kv: v2
   vault_hcv_token: "hvs.cZUnRwmm0JZrb64R4KISsXKW"
 
-secretVolumes:
-  - kong-cluster-cert
-
 admin:
   enabled: false
 
