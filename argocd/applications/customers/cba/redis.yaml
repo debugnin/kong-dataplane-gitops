@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: redis
-    targetRevision: 18.19.4
+    targetRevision: 20.2.1
     helm:
       releaseName: redis-cba
       values: |
@@ -20,9 +20,19 @@ spec:
           tag: latest
         master:
           persistence:
-            enabled: false
+            enabled: true
+            size: 8Gi
         replica:
           replicaCount: 0
+        metrics:
+          enabled: false
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 250m
+          requests:
+            memory: 128Mi
+            cpu: 100m
   destination:
     server: https://kubernetes.default.svc
     namespace: kong-cba
