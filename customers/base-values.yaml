@@ -31,7 +31,7 @@ env:
   vault_hcv_port: 8200
   vault_hcv_mount: secret
   vault_hcv_kv: v2
-  vault_hcv_token: "root"
+  vault_hcv_token: "hvs.cZUnRwmm0JZrb64R4KISsXKW"
 
 secretVolumes:
   - kong-cluster-cert
