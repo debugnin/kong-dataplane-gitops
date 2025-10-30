@@ -31,11 +31,7 @@ env:
   vault_hcv_port: 8200
   vault_hcv_mount: secret
   vault_hcv_kv: v2
-  vault_hcv_token: "root"
-
-  # Cluster certificates from Vault
-  cluster_cert: "{vault://hcv/tls/anz/cert}"
-  cluster_cert_key: "{vault://hcv/tls/anz/key}"
+  vault_hcv_token: "hvs.NcBqn1cUehokZN8KM5lhqWUv"
 
 admin:
   enabled: false
