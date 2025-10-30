@@ -3,15 +3,7 @@ env:
   cluster_control_plane: 27f1c2fb27.au.cp0.konghq.com:443
   cluster_telemetry_endpoint: 27f1c2fb27.au.tp0.konghq.com:443
   cluster_telemetry_server_name: 27f1c2fb27.au.tp0.konghq.com
-
-# Use Kubernetes secret for cluster certificates
-secretRefs:
-  - kong-cluster-secret
-
-envSecretRefs:
-  cluster_cert:
-    secret: kong-cluster-secret
-    key: tls.crt
-  cluster_cert_key:
-    secret: kong-cluster-secret
-    key: tls.key
+  
+  # Cluster certificates mounted from secretVolumes (defined in base-values.yaml)
+  cluster_cert: "/etc/secrets/kong-cluster-secret/tls.crt"
+  cluster_cert_key: "/etc/secrets/kong-cluster-secret/tls.key"

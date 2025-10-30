@@ -24,14 +24,14 @@ env:
   tracing_instrumentations: "all"
   tracing_sampling_rate: "1.0"
 
-  # HashiCorp Vault
-  vaults: hcv
-  vault_hcv_protocol: http
-  vault_hcv_host: vault.vault.svc.cluster.local
-  vault_hcv_port: 8200
-  vault_hcv_mount: secret
-  vault_hcv_kv: v2
-  vault_hcv_token: "hvs.NcBqn1cUehokZN8KM5lhqWUv"
+# Mount cluster certificates from Kubernetes secrets
+secretVolumes:
+  - kong-cluster-secret
+
+# Cluster certificates are provided via Kubernetes secrets
+# Each customer namespace should have a 'kong-cluster-secret' containing:
+# - tls.crt: Client certificate for Kong cluster communication
+# - tls.key: Private key for Kong cluster communication
 
 admin:
   enabled: false
