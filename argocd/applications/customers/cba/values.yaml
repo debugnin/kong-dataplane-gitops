@@ -4,5 +4,14 @@ env:
   cluster_telemetry_endpoint: 995f163511.au.tp0.konghq.com:443
   cluster_telemetry_server_name: 995f163511.au.tp0.konghq.com
 
-  cluster_cert: "{vault://hcv/tls/cba/cert}"
-  cluster_cert_key: "{vault://hcv/tls/cba/key}"
+# Use Kubernetes secret for cluster certificates
+secretRefs:
+  - kong-cluster-secret
+
+envSecretRefs:
+  cluster_cert:
+    secret: kong-cluster-secret
+    key: tls.crt
+  cluster_cert_key:
+    secret: kong-cluster-secret
+    key: tls.key
