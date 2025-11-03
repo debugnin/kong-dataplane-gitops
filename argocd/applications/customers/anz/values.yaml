@@ -1,9 +1,9 @@
 env:
-  cluster_server_name: f8a85218a5.au.cp0.konghq.com
-  cluster_control_plane: f8a85218a5.au.cp0.konghq.com:443
-  cluster_telemetry_endpoint: f8a85218a5.au.tp0.konghq.com:443
-  cluster_telemetry_server_name: f8a85218a5.au.tp0.konghq.com
-  
+  cluster_server_name: ce8f452b2e.au.cp0.konghq.com
+  cluster_control_plane: ce8f452b2e.au.cp0.konghq.com:443
+  cluster_telemetry_endpoint: ce8f452b2e.au.tp0.konghq.com:443
+  cluster_telemetry_server_name: ce8f452b2e.au.tp0.konghq.com
+
   # Cluster certificates mounted from secretVolumes (defined in base-values.yaml)
   cluster_cert: "/etc/secrets/kong-cluster-secret/tls.crt"
   cluster_cert_key: "/etc/secrets/kong-cluster-secret/tls.key"
